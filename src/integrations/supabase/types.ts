@@ -14,16 +14,211 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bot_logs: {
+        Row: {
+          answer: string | null
+          created_at: string
+          fallback_email: string | null
+          id: string
+          question: string
+          user_id: string | null
+        }
+        Insert: {
+          answer?: string | null
+          created_at?: string
+          fallback_email?: string | null
+          id?: string
+          question: string
+          user_id?: string | null
+        }
+        Update: {
+          answer?: string | null
+          created_at?: string
+          fallback_email?: string | null
+          id?: string
+          question?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      inquiries: {
+        Row: {
+          contact_email: string
+          contact_phone: string | null
+          created_at: string
+          id: string
+          message: string
+          property_id: string
+          tenant_id: string | null
+        }
+        Insert: {
+          contact_email: string
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          property_id: string
+          tenant_id?: string | null
+        }
+        Update: {
+          contact_email?: string
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          property_id?: string
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inquiries_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          balcony: boolean
+          bathrooms: number
+          bedrooms: number
+          city: string
+          created_at: string
+          description: string | null
+          fenced: boolean
+          id: string
+          images: string[]
+          landlord_id: string
+          location: string
+          monthly_rent_kes: number
+          parking: boolean
+          property_type: Database["public"]["Enums"]["property_type"]
+          security: boolean
+          status: Database["public"]["Enums"]["property_status"]
+          title: string
+          updated_at: string
+          water: boolean
+          wifi: boolean
+        }
+        Insert: {
+          balcony?: boolean
+          bathrooms?: number
+          bedrooms?: number
+          city: string
+          created_at?: string
+          description?: string | null
+          fenced?: boolean
+          id?: string
+          images?: string[]
+          landlord_id: string
+          location: string
+          monthly_rent_kes: number
+          parking?: boolean
+          property_type: Database["public"]["Enums"]["property_type"]
+          security?: boolean
+          status?: Database["public"]["Enums"]["property_status"]
+          title: string
+          updated_at?: string
+          water?: boolean
+          wifi?: boolean
+        }
+        Update: {
+          balcony?: boolean
+          bathrooms?: number
+          bedrooms?: number
+          city?: string
+          created_at?: string
+          description?: string | null
+          fenced?: boolean
+          id?: string
+          images?: string[]
+          landlord_id?: string
+          location?: string
+          monthly_rent_kes?: number
+          parking?: boolean
+          property_type?: Database["public"]["Enums"]["property_type"]
+          security?: boolean
+          status?: Database["public"]["Enums"]["property_status"]
+          title?: string
+          updated_at?: string
+          water?: boolean
+          wifi?: boolean
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "tenant" | "landlord"
+      property_status: "available" | "rented" | "archived"
+      property_type:
+        | "single_room"
+        | "bedsitter"
+        | "one_br"
+        | "two_br"
+        | "three_br"
+        | "four_br_plus"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +345,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["tenant", "landlord"],
+      property_status: ["available", "rented", "archived"],
+      property_type: [
+        "single_room",
+        "bedsitter",
+        "one_br",
+        "two_br",
+        "three_br",
+        "four_br_plus",
+      ],
+    },
   },
 } as const
