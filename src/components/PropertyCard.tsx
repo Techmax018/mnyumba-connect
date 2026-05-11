@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { MapPin, Bed, Bath, Wifi, Droplets, ShieldCheck, Car } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatKES, propertyTypeLabel } from "@/lib/constants";
+import { FavoriteButton } from "./FavoriteButton";
 
 export interface PropertyCardData {
   id: string;
@@ -32,7 +33,8 @@ export function PropertyCard({ p }: { p: PropertyCardData }) {
             <div className="w-full h-full bg-gradient-primary opacity-30" />
           )}
           <Badge className="absolute top-3 left-3 bg-background/95 text-foreground hover:bg-background/95">{propertyTypeLabel(p.property_type)}</Badge>
-          {p.status === "rented" && <Badge variant="destructive" className="absolute top-3 right-3">Rented</Badge>}
+          <FavoriteButton propertyId={p.id} className="absolute top-3 right-3" size="sm" />
+          {p.status === "rented" && <Badge variant="destructive" className="absolute bottom-3 right-3">Rented</Badge>}
         </div>
         <div className="p-4 space-y-2">
           <div className="flex items-start justify-between gap-2">

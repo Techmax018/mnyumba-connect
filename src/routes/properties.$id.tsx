@@ -11,6 +11,8 @@ import { Card } from "@/components/ui/card";
 import { formatKES, propertyTypeLabel } from "@/lib/constants";
 import { MapPin, Bed, Bath, Wifi, Droplets, ShieldCheck, Car, Building2, Fence, ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { FavoriteButton } from "@/components/FavoriteButton";
+import { RentPayButton } from "@/components/RentPayButton";
 
 export const Route = createFileRoute("/properties/$id")({
   component: PropertyDetail,
@@ -37,6 +39,8 @@ function PropertyDetail() {
       if (data) {
         const { data: prof } = await supabase.from("profiles").select("full_name, phone, email").eq("id", data.landlord_id).maybeSingle();
         setLandlord(prof);
+        // Track view (fire and forget)
+        supabase.from("property_views").insert({ property_id: id, viewer_id: user?.id ?? null }).then(() => {});
       }
       setLoading(false);
     })();
@@ -94,6 +98,7 @@ function PropertyDetail() {
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <Badge>{propertyTypeLabel(p.property_type)}</Badge>
             <Badge variant={p.status === "available" ? "default" : "secondary"}>{p.status}</Badge>
+            <FavoriteButton propertyId={p.id} className="ml-auto" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{p.title}</h1>
           <div className="flex items-center text-muted-foreground gap-1 mb-4"><MapPin className="h-4 w-4" />{p.location}, {p.city}</div>
@@ -128,6 +133,11 @@ function PropertyDetail() {
               <Button type="submit" className="w-full" disabled={sending}>{sending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Send inquiry</Button>
               {!user && <p className="text-xs text-muted-foreground text-center">You'll be asked to sign in</p>}
             </form>
+          </Card>
+          <Card className="p-5">
+            <h3 className="font-semibold mb-1">Rent payment</h3>
+            <p className="text-xs text-muted-foreground mb-4">Pay your monthly rent securely. A receipt is added to your dashboard.</p>
+            <RentPayButton propertyId={p.id} landlordId={p.landlord_id} amount={p.monthly_rent_kes} />
           </Card>
         </aside>
       </div>

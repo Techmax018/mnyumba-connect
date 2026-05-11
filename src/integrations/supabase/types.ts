@@ -41,14 +41,47 @@ export type Database = {
         }
         Relationships: []
       }
+      favorites: {
+        Row: {
+          created_at: string
+          id: string
+          property_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inquiries: {
         Row: {
           contact_email: string
           contact_phone: string | null
           created_at: string
           id: string
+          landlord_reply: string | null
           message: string
           property_id: string
+          replied_at: string | null
+          seen_at: string | null
+          status: Database["public"]["Enums"]["inquiry_status"]
           tenant_id: string | null
         }
         Insert: {
@@ -56,8 +89,12 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           id?: string
+          landlord_reply?: string | null
           message: string
           property_id: string
+          replied_at?: string | null
+          seen_at?: string | null
+          status?: Database["public"]["Enums"]["inquiry_status"]
           tenant_id?: string | null
         }
         Update: {
@@ -65,8 +102,12 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           id?: string
+          landlord_reply?: string | null
           message?: string
           property_id?: string
+          replied_at?: string | null
+          seen_at?: string | null
+          status?: Database["public"]["Enums"]["inquiry_status"]
           tenant_id?: string | null
         }
         Relationships: [
@@ -78,6 +119,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read: boolean
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -117,6 +191,7 @@ export type Database = {
           fenced: boolean
           id: string
           images: string[]
+          is_demo: boolean
           landlord_id: string
           location: string
           monthly_rent_kes: number
@@ -139,6 +214,7 @@ export type Database = {
           fenced?: boolean
           id?: string
           images?: string[]
+          is_demo?: boolean
           landlord_id: string
           location: string
           monthly_rent_kes: number
@@ -161,6 +237,7 @@ export type Database = {
           fenced?: boolean
           id?: string
           images?: string[]
+          is_demo?: boolean
           landlord_id?: string
           location?: string
           monthly_rent_kes?: number
@@ -174,6 +251,82 @@ export type Database = {
           wifi?: boolean
         }
         Relationships: []
+      }
+      property_views: {
+        Row: {
+          created_at: string
+          id: string
+          property_id: string
+          viewer_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_id: string
+          viewer_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_id?: string
+          viewer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_views_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rent_payments: {
+        Row: {
+          amount_kes: number
+          created_at: string
+          id: string
+          landlord_id: string
+          paid_at: string | null
+          period_month: string
+          property_id: string
+          status: Database["public"]["Enums"]["payment_status"]
+          stripe_session_id: string | null
+          tenant_id: string
+        }
+        Insert: {
+          amount_kes: number
+          created_at?: string
+          id?: string
+          landlord_id: string
+          paid_at?: string | null
+          period_month: string
+          property_id: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          stripe_session_id?: string | null
+          tenant_id: string
+        }
+        Update: {
+          amount_kes?: number
+          created_at?: string
+          id?: string
+          landlord_id?: string
+          paid_at?: string | null
+          period_month?: string
+          property_id?: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          stripe_session_id?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rent_payments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -211,6 +364,14 @@ export type Database = {
     }
     Enums: {
       app_role: "tenant" | "landlord"
+      inquiry_status: "new" | "seen" | "replied"
+      notification_type:
+        | "inquiry_new"
+        | "inquiry_reply"
+        | "payment_received"
+        | "payment_confirmed"
+        | "system"
+      payment_status: "pending" | "paid" | "failed" | "refunded"
       property_status: "available" | "rented" | "archived"
       property_type:
         | "single_room"
@@ -347,6 +508,15 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["tenant", "landlord"],
+      inquiry_status: ["new", "seen", "replied"],
+      notification_type: [
+        "inquiry_new",
+        "inquiry_reply",
+        "payment_received",
+        "payment_confirmed",
+        "system",
+      ],
+      payment_status: ["pending", "paid", "failed", "refunded"],
       property_status: ["available", "rented", "archived"],
       property_type: [
         "single_room",
