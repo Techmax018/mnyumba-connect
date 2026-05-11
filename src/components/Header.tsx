@@ -2,8 +2,9 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Home, LogOut, LayoutDashboard, Menu } from "lucide-react";
+import { Home, LogOut, LayoutDashboard, Menu, Heart } from "lucide-react";
 import { useState } from "react";
+import { NotificationsBell } from "./NotificationsBell";
 
 export function Header() {
   const { user, role } = useAuth();
@@ -15,9 +16,14 @@ export function Header() {
     navigate({ to: "/" });
   };
 
+  const dashHref = role === "landlord" ? "/dashboard/landlord" : "/dashboard/tenant";
+
   const navLinks = (
     <>
       <Link to="/properties" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setOpen(false)}>Browse</Link>
+      {user && role === "tenant" && (
+        <Link to="/favorites" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setOpen(false)}>Favorites</Link>
+      )}
       <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setOpen(false)}>About</Link>
       <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setOpen(false)}>Contact</Link>
     </>
@@ -38,11 +44,10 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2">
           {user ? (
             <>
-              {role === "landlord" && (
-                <Link to="/dashboard">
-                  <Button variant="ghost" size="sm"><LayoutDashboard className="mr-2 h-4 w-4" />Dashboard</Button>
-                </Link>
-              )}
+              <NotificationsBell />
+              <Link to={dashHref}>
+                <Button variant="ghost" size="sm"><LayoutDashboard className="mr-2 h-4 w-4" />Dashboard</Button>
+              </Link>
               <Button variant="outline" size="sm" onClick={handleLogout}><LogOut className="mr-2 h-4 w-4" />Sign out</Button>
             </>
           ) : (
@@ -53,7 +58,10 @@ export function Header() {
           )}
         </div>
 
-        <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Menu"><Menu /></button>
+        <div className="md:hidden flex items-center gap-1">
+          {user && <NotificationsBell />}
+          <button className="p-2" onClick={() => setOpen(!open)} aria-label="Menu"><Menu /></button>
+        </div>
       </div>
 
       {open && (
@@ -61,7 +69,14 @@ export function Header() {
           {navLinks}
           {user ? (
             <>
-              {role === "landlord" && <Link to="/dashboard" onClick={() => setOpen(false)}><Button variant="outline" className="w-full">Dashboard</Button></Link>}
+              <Link to={dashHref} onClick={() => setOpen(false)}>
+                <Button variant="outline" className="w-full"><LayoutDashboard className="mr-2 h-4 w-4" />Dashboard</Button>
+              </Link>
+              {role === "tenant" && (
+                <Link to="/favorites" onClick={() => setOpen(false)}>
+                  <Button variant="outline" className="w-full"><Heart className="mr-2 h-4 w-4" />Favorites</Button>
+                </Link>
+              )}
               <Button variant="outline" onClick={handleLogout}>Sign out</Button>
             </>
           ) : (
