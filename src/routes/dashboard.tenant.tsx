@@ -10,7 +10,6 @@ import { Loader2, Heart, MessageSquare, Wallet, MapPin } from "lucide-react";
 import { formatKES } from "@/lib/constants";
 import { format } from "date-fns";
 import { PropertyCard } from "@/components/PropertyCard";
-import { RentPayButton } from "@/components/RentPayButton";
 
 export const Route = createFileRoute("/dashboard/tenant")({
   component: TenantDashboard,

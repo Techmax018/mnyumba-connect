@@ -10,18 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PropertiesRouteImport } from './routes/properties'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
+import { Route as DashboardTenantRouteImport } from './routes/dashboard.tenant'
 import { Route as DashboardNewRouteImport } from './routes/dashboard.new'
+import { Route as DashboardLandlordRouteImport } from './routes/dashboard.landlord'
 import { Route as DashboardEditIdRouteImport } from './routes/dashboard.edit.$id'
 
 const PropertiesRoute = PropertiesRouteImport.update({
   id: '/properties',
   path: '/properties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -54,9 +62,19 @@ const PropertiesIdRoute = PropertiesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => PropertiesRoute,
 } as any)
+const DashboardTenantRoute = DashboardTenantRouteImport.update({
+  id: '/tenant',
+  path: '/tenant',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardNewRoute = DashboardNewRouteImport.update({
   id: '/new',
   path: '/new',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardLandlordRoute = DashboardLandlordRouteImport.update({
+  id: '/landlord',
+  path: '/landlord',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardEditIdRoute = DashboardEditIdRouteImport.update({
@@ -71,8 +89,11 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/dashboard/tenant': typeof DashboardTenantRoute
   '/properties/$id': typeof PropertiesIdRoute
   '/dashboard/edit/$id': typeof DashboardEditIdRoute
 }
@@ -82,8 +103,11 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/dashboard/tenant': typeof DashboardTenantRoute
   '/properties/$id': typeof PropertiesIdRoute
   '/dashboard/edit/$id': typeof DashboardEditIdRoute
 }
@@ -94,8 +118,11 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/dashboard/tenant': typeof DashboardTenantRoute
   '/properties/$id': typeof PropertiesIdRoute
   '/dashboard/edit/$id': typeof DashboardEditIdRoute
 }
@@ -107,8 +134,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/dashboard'
+    | '/favorites'
     | '/properties'
+    | '/dashboard/landlord'
     | '/dashboard/new'
+    | '/dashboard/tenant'
     | '/properties/$id'
     | '/dashboard/edit/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -118,8 +148,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/dashboard'
+    | '/favorites'
     | '/properties'
+    | '/dashboard/landlord'
     | '/dashboard/new'
+    | '/dashboard/tenant'
     | '/properties/$id'
     | '/dashboard/edit/$id'
   id:
@@ -129,8 +162,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/dashboard'
+    | '/favorites'
     | '/properties'
+    | '/dashboard/landlord'
     | '/dashboard/new'
+    | '/dashboard/tenant'
     | '/properties/$id'
     | '/dashboard/edit/$id'
   fileRoutesById: FileRoutesById
@@ -141,6 +177,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  FavoritesRoute: typeof FavoritesRoute
   PropertiesRoute: typeof PropertiesRouteWithChildren
 }
 
@@ -151,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/properties'
       fullPath: '/properties'
       preLoaderRoute: typeof PropertiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -195,11 +239,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropertiesIdRouteImport
       parentRoute: typeof PropertiesRoute
     }
+    '/dashboard/tenant': {
+      id: '/dashboard/tenant'
+      path: '/tenant'
+      fullPath: '/dashboard/tenant'
+      preLoaderRoute: typeof DashboardTenantRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/new': {
       id: '/dashboard/new'
       path: '/new'
       fullPath: '/dashboard/new'
       preLoaderRoute: typeof DashboardNewRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/landlord': {
+      id: '/dashboard/landlord'
+      path: '/landlord'
+      fullPath: '/dashboard/landlord'
+      preLoaderRoute: typeof DashboardLandlordRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/edit/$id': {
@@ -213,12 +271,16 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardLandlordRoute: typeof DashboardLandlordRoute
   DashboardNewRoute: typeof DashboardNewRoute
+  DashboardTenantRoute: typeof DashboardTenantRoute
   DashboardEditIdRoute: typeof DashboardEditIdRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardLandlordRoute: DashboardLandlordRoute,
   DashboardNewRoute: DashboardNewRoute,
+  DashboardTenantRoute: DashboardTenantRoute,
   DashboardEditIdRoute: DashboardEditIdRoute,
 }
 
@@ -244,6 +306,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  FavoritesRoute: FavoritesRoute,
   PropertiesRoute: PropertiesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
