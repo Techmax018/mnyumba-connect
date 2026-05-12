@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/hooks/use-auth";
+import { ThemeProvider } from "@/hooks/use-theme";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
@@ -80,15 +81,17 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1"><Outlet /></main>
-          <Footer />
-          <ChatBot />
-          <Toaster richColors position="top-center" />
-        </div>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <div className="flex min-h-screen flex-col bg-background">
+            <Header />
+            <main className="flex-1"><Outlet /></main>
+            <Footer />
+            <ChatBot />
+            <Toaster richColors position="top-center" />
+          </div>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

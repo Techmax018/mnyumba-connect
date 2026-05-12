@@ -349,6 +349,113 @@ export type Database = {
         }
         Relationships: []
       }
+      wifi_payments: {
+        Row: {
+          amount_kes: number
+          created_at: string
+          id: string
+          landlord_id: string
+          paid_at: string | null
+          period_month: string
+          property_id: string
+          status: Database["public"]["Enums"]["payment_status"]
+          tenant_id: string
+          vendor_id: string | null
+          vendor_name: string
+        }
+        Insert: {
+          amount_kes: number
+          created_at?: string
+          id?: string
+          landlord_id: string
+          paid_at?: string | null
+          period_month: string
+          property_id: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          tenant_id: string
+          vendor_id?: string | null
+          vendor_name: string
+        }
+        Update: {
+          amount_kes?: number
+          created_at?: string
+          id?: string
+          landlord_id?: string
+          paid_at?: string | null
+          period_month?: string
+          property_id?: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          tenant_id?: string
+          vendor_id?: string | null
+          vendor_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wifi_payments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wifi_payments_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "wifi_vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wifi_vendors: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          landlord_id: string
+          monthly_price_kes: number
+          name: string
+          notes: string | null
+          plan_name: string | null
+          property_id: string
+          speed_mbps: number | null
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          landlord_id: string
+          monthly_price_kes?: number
+          name: string
+          notes?: string | null
+          plan_name?: string | null
+          property_id: string
+          speed_mbps?: number | null
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          landlord_id?: string
+          monthly_price_kes?: number
+          name?: string
+          notes?: string | null
+          plan_name?: string | null
+          property_id?: string
+          speed_mbps?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wifi_vendors_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

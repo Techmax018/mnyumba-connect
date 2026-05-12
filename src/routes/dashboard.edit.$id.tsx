@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { KENYAN_CITIES, PROPERTY_TYPES } from "@/lib/constants";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { WifiVendorsManager } from "@/components/WifiVendorsManager";
 
 export const Route = createFileRoute("/dashboard/edit/$id")({
   component: EditListing,
@@ -104,6 +105,8 @@ function EditListing() {
             ))}
           </div>
         </Card>
+
+        <WifiVendorsManager propertyId={form.id} landlordId={form.landlord_id} />
 
         <div className="flex gap-3">
           <Button type="submit" size="lg" disabled={saving} className="flex-1">{saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Save changes</Button>

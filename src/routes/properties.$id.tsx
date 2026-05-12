@@ -13,6 +13,7 @@ import { MapPin, Bed, Bath, Wifi, Droplets, ShieldCheck, Car, Building2, Fence, 
 import { toast } from "sonner";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { RentPayButton } from "@/components/RentPayButton";
+import { WifiSection } from "@/components/WifiSection";
 
 export const Route = createFileRoute("/properties/$id")({
   component: PropertyDetail,
@@ -120,6 +121,8 @@ function PropertyDetail() {
               </div>
             ))}
           </div>
+
+          <WifiSection propertyId={p.id} landlordId={p.landlord_id} />
         </div>
 
         <aside className="lg:sticky lg:top-20 self-start space-y-4">
