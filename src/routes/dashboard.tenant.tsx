@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Loader2, Heart, MessageSquare, Wallet, MapPin } from "lucide-react";
+import { Loader2, Heart, MessageSquare, Wallet, MapPin, Wifi } from "lucide-react";
 import { formatKES } from "@/lib/constants";
 import { format } from "date-fns";
 import { PropertyCard } from "@/components/PropertyCard";
@@ -70,6 +70,7 @@ function TenantDashboard() {
           <TabsTrigger value="favorites">Favorites</TabsTrigger>
           <TabsTrigger value="inquiries">My inquiries</TabsTrigger>
           <TabsTrigger value="payments">Rent payments</TabsTrigger>
+          <TabsTrigger value="wifi">WiFi</TabsTrigger>
         </TabsList>
 
         <TabsContent value="favorites" className="mt-6">
@@ -130,6 +131,41 @@ function TenantDashboard() {
                         <td className="pr-4 font-semibold">{formatKES(p.amount_kes)}</td>
                         <td className="pr-4"><Badge variant={p.status === "paid" ? "default" : "outline"}>{p.status}</Badge></td>
                         <td className="text-muted-foreground text-xs">{p.paid_at ? format(new Date(p.paid_at), "MMM d, yyyy") : "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="wifi" className="mt-6">
+          {wifi.length === 0 ? (
+            <Card className="p-12 text-center border-dashed border-2">
+              <Wifi className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+              <p className="text-muted-foreground mb-4">No WiFi payments yet. Pay your internet bill from any property page that lists a vendor.</p>
+              <Link to="/properties"><Button>Browse properties</Button></Link>
+            </Card>
+          ) : (
+            <Card className="p-4">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="text-left text-muted-foreground">
+                    <tr><th className="py-2 pr-4">Vendor</th><th className="pr-4">Property</th><th className="pr-4">Period</th><th className="pr-4">Amount</th><th className="pr-4">Status</th><th>Paid on</th></tr>
+                  </thead>
+                  <tbody>
+                    {wifi.map((w) => (
+                      <tr key={w.id} className="border-t">
+                        <td className="py-2 pr-4 font-medium">{w.vendor_name}</td>
+                        <td className="pr-4">
+                          <div className="font-medium">{w.properties?.title}</div>
+                          <div className="text-xs text-muted-foreground">{w.properties?.location}, {w.properties?.city}</div>
+                        </td>
+                        <td className="pr-4">{format(new Date(w.period_month), "MMM yyyy")}</td>
+                        <td className="pr-4 font-semibold">{formatKES(w.amount_kes)}</td>
+                        <td className="pr-4"><Badge variant={w.status === "paid" ? "default" : "outline"}>{w.status}</Badge></td>
+                        <td className="text-muted-foreground text-xs">{w.paid_at ? format(new Date(w.paid_at), "MMM d, yyyy") : "—"}</td>
                       </tr>
                     ))}
                   </tbody>
