@@ -106,6 +106,8 @@ function EditListing() {
           </div>
         </Card>
 
+        <WifiVendorsManager propertyId={form.id} landlordId={form.landlord_id} />
+
         <div className="flex gap-3">
           <Button type="submit" size="lg" disabled={saving} className="flex-1">{saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Save changes</Button>
           <Link to="/dashboard"><Button type="button" variant="outline" size="lg">Cancel</Button></Link>
