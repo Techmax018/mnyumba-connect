@@ -72,6 +72,28 @@
   --transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Accent presets — applied as class on <html> */
+.accent-terracotta {
+  --primary: oklch(0.62 0.18 45);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-glow: oklch(0.72 0.17 50);
+  --accent: oklch(0.52 0.14 145);
+  --ring: oklch(0.62 0.18 45);
+  --gradient-hero: linear-gradient(135deg, oklch(0.55 0.18 40) 0%, oklch(0.65 0.18 50) 55%, oklch(0.55 0.14 145) 100%);
+  --shadow-glow: 0 8px 32px -8px oklch(0.62 0.18 45 / 0.4);
+}
+.accent-ocean {
+  --primary: oklch(0.55 0.15 240);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-glow: oklch(0.66 0.16 230);
+  --accent: oklch(0.74 0.16 70);
+  --ring: oklch(0.55 0.15 240);
+  --gradient-hero: linear-gradient(135deg, oklch(0.42 0.14 245) 0%, oklch(0.55 0.16 230) 60%, oklch(0.7 0.15 70) 100%);
+  --shadow-glow: 0 8px 32px -8px oklch(0.55 0.15 240 / 0.4);
+}
+.dark.accent-terracotta { --primary: oklch(0.72 0.17 50); --primary-glow: oklch(0.78 0.16 55); --ring: oklch(0.72 0.17 50); }
+.dark.accent-ocean { --primary: oklch(0.68 0.16 230); --primary-glow: oklch(0.76 0.15 225); --ring: oklch(0.68 0.16 230); }
+
 .dark {
   --background: oklch(0.18 0.02 150);
   --foreground: oklch(0.97 0 0);
