@@ -23,6 +23,7 @@ function TenantDashboard() {
   const [favs, setFavs] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [payments, setPayments] = useState<any[]>([]);
+  const [wifi, setWifi] = useState<any[]>([]);
   const [busy, setBusy] = useState(true);
 
   useEffect(() => { if (!loading && !user) navigate({ to: "/auth" }); }, [loading, user, navigate]);
@@ -30,14 +31,16 @@ function TenantDashboard() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const [{ data: f }, { data: i }, { data: p }] = await Promise.all([
+      const [{ data: f }, { data: i }, { data: p }, { data: w }] = await Promise.all([
         supabase.from("favorites").select("created_at, properties(*)").eq("user_id", user.id).order("created_at", { ascending: false }),
         supabase.from("inquiries").select("*, properties(title, monthly_rent_kes, landlord_id)").eq("tenant_id", user.id).order("created_at", { ascending: false }),
         supabase.from("rent_payments").select("*, properties(title, location, city)").eq("tenant_id", user.id).order("period_month", { ascending: false }),
+        supabase.from("wifi_payments").select("*, properties(title, location, city)").eq("tenant_id", user.id).order("period_month", { ascending: false }),
       ]);
       setFavs((f ?? []).map((r: any) => r.properties).filter(Boolean));
       setInquiries(i ?? []);
       setPayments(p ?? []);
+      setWifi(w ?? []);
       setBusy(false);
     })();
   }, [user]);
