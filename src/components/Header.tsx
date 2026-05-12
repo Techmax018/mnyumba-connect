@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Home, LogOut, LayoutDashboard, Menu, Heart } from "lucide-react";
 import { useState } from "react";
 import { NotificationsBell } from "./NotificationsBell";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   const { user, role } = useAuth();
@@ -41,7 +42,8 @@ export function Header() {
 
         <nav className="hidden md:flex items-center gap-8">{navLinks}</nav>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-1.5">
+          <ThemeToggle />
           {user ? (
             <>
               <NotificationsBell />
@@ -59,6 +61,7 @@ export function Header() {
         </div>
 
         <div className="md:hidden flex items-center gap-1">
+          <ThemeToggle />
           {user && <NotificationsBell />}
           <button className="p-2" onClick={() => setOpen(!open)} aria-label="Menu"><Menu /></button>
         </div>

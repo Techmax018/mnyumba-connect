@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { KENYAN_CITIES, PROPERTY_TYPES } from "@/lib/constants";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { WifiVendorsManager } from "@/components/WifiVendorsManager";
 
 export const Route = createFileRoute("/dashboard/edit/$id")({
   component: EditListing,
