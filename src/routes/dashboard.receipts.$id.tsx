@@ -23,8 +23,14 @@ function ReceiptDetail() {
   useEffect(() => {
     (async () => {
       const table = kind === "wifi" ? "wifi_payments" : "rent_payments";
-      const { data: row } = await supabase.from(table).select("*, properties(title, location, city), tenant:profiles!tenant_id(full_name, email, phone), landlord:profiles!landlord_id(full_name, email, phone)").eq("id", id).maybeSingle();
-      setData(row); setBusy(false);
+      const { data: row } = await supabase.from(table).select("*, properties(title, location, city)").eq("id", id).maybeSingle();
+      if (row) {
+        const { data: profs } = await supabase.from("profiles").select("id, full_name, email, phone").in("id", [row.tenant_id, row.landlord_id]);
+        const tenant = profs?.find((p: any) => p.id === row.tenant_id);
+        const landlord = profs?.find((p: any) => p.id === row.landlord_id);
+        setData({ ...row, tenant, landlord });
+      }
+      setBusy(false);
     })();
   }, [id, kind]);
 
