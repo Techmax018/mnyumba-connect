@@ -16,10 +16,15 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
+import { Route as OnboardingRoleRouteImport } from './routes/onboarding.role'
 import { Route as DashboardTenantRouteImport } from './routes/dashboard.tenant'
+import { Route as DashboardRemindersRouteImport } from './routes/dashboard.reminders'
+import { Route as DashboardReceiptsRouteImport } from './routes/dashboard.receipts'
 import { Route as DashboardNewRouteImport } from './routes/dashboard.new'
 import { Route as DashboardLandlordRouteImport } from './routes/dashboard.landlord'
+import { Route as DashboardReceiptsIdRouteImport } from './routes/dashboard.receipts.$id'
 import { Route as DashboardEditIdRouteImport } from './routes/dashboard.edit.$id'
 
 const PropertiesRoute = PropertiesRouteImport.update({
@@ -57,14 +62,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const PropertiesIdRoute = PropertiesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => PropertiesRoute,
 } as any)
+const OnboardingRoleRoute = OnboardingRoleRouteImport.update({
+  id: '/onboarding/role',
+  path: '/onboarding/role',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardTenantRoute = DashboardTenantRouteImport.update({
   id: '/tenant',
   path: '/tenant',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardRemindersRoute = DashboardRemindersRouteImport.update({
+  id: '/reminders',
+  path: '/reminders',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardReceiptsRoute = DashboardReceiptsRouteImport.update({
+  id: '/receipts',
+  path: '/receipts',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardNewRoute = DashboardNewRouteImport.update({
@@ -76,6 +101,11 @@ const DashboardLandlordRoute = DashboardLandlordRouteImport.update({
   id: '/landlord',
   path: '/landlord',
   getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardReceiptsIdRoute = DashboardReceiptsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => DashboardReceiptsRoute,
 } as any)
 const DashboardEditIdRoute = DashboardEditIdRouteImport.update({
   id: '/edit/$id',
@@ -93,23 +123,32 @@ export interface FileRoutesByFullPath {
   '/properties': typeof PropertiesRouteWithChildren
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/dashboard/receipts': typeof DashboardReceiptsRouteWithChildren
+  '/dashboard/reminders': typeof DashboardRemindersRoute
   '/dashboard/tenant': typeof DashboardTenantRoute
+  '/onboarding/role': typeof OnboardingRoleRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/edit/$id': typeof DashboardEditIdRoute
+  '/dashboard/receipts/$id': typeof DashboardReceiptsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/dashboard/receipts': typeof DashboardReceiptsRouteWithChildren
+  '/dashboard/reminders': typeof DashboardRemindersRoute
   '/dashboard/tenant': typeof DashboardTenantRoute
+  '/onboarding/role': typeof OnboardingRoleRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/dashboard/edit/$id': typeof DashboardEditIdRoute
+  '/dashboard/receipts/$id': typeof DashboardReceiptsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -122,9 +161,14 @@ export interface FileRoutesById {
   '/properties': typeof PropertiesRouteWithChildren
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/dashboard/receipts': typeof DashboardReceiptsRouteWithChildren
+  '/dashboard/reminders': typeof DashboardRemindersRoute
   '/dashboard/tenant': typeof DashboardTenantRoute
+  '/onboarding/role': typeof OnboardingRoleRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/edit/$id': typeof DashboardEditIdRoute
+  '/dashboard/receipts/$id': typeof DashboardReceiptsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -138,23 +182,32 @@ export interface FileRouteTypes {
     | '/properties'
     | '/dashboard/landlord'
     | '/dashboard/new'
+    | '/dashboard/receipts'
+    | '/dashboard/reminders'
     | '/dashboard/tenant'
+    | '/onboarding/role'
     | '/properties/$id'
+    | '/dashboard/'
     | '/dashboard/edit/$id'
+    | '/dashboard/receipts/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
     | '/contact'
-    | '/dashboard'
     | '/favorites'
     | '/properties'
     | '/dashboard/landlord'
     | '/dashboard/new'
+    | '/dashboard/receipts'
+    | '/dashboard/reminders'
     | '/dashboard/tenant'
+    | '/onboarding/role'
     | '/properties/$id'
+    | '/dashboard'
     | '/dashboard/edit/$id'
+    | '/dashboard/receipts/$id'
   id:
     | '__root__'
     | '/'
@@ -166,9 +219,14 @@ export interface FileRouteTypes {
     | '/properties'
     | '/dashboard/landlord'
     | '/dashboard/new'
+    | '/dashboard/receipts'
+    | '/dashboard/reminders'
     | '/dashboard/tenant'
+    | '/onboarding/role'
     | '/properties/$id'
+    | '/dashboard/'
     | '/dashboard/edit/$id'
+    | '/dashboard/receipts/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,6 +237,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   FavoritesRoute: typeof FavoritesRoute
   PropertiesRoute: typeof PropertiesRouteWithChildren
+  OnboardingRoleRoute: typeof OnboardingRoleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/properties/$id': {
       id: '/properties/$id'
       path: '/$id'
@@ -239,11 +305,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropertiesIdRouteImport
       parentRoute: typeof PropertiesRoute
     }
+    '/onboarding/role': {
+      id: '/onboarding/role'
+      path: '/onboarding/role'
+      fullPath: '/onboarding/role'
+      preLoaderRoute: typeof OnboardingRoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/tenant': {
       id: '/dashboard/tenant'
       path: '/tenant'
       fullPath: '/dashboard/tenant'
       preLoaderRoute: typeof DashboardTenantRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/reminders': {
+      id: '/dashboard/reminders'
+      path: '/reminders'
+      fullPath: '/dashboard/reminders'
+      preLoaderRoute: typeof DashboardRemindersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/receipts': {
+      id: '/dashboard/receipts'
+      path: '/receipts'
+      fullPath: '/dashboard/receipts'
+      preLoaderRoute: typeof DashboardReceiptsRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/new': {
@@ -260,6 +347,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardLandlordRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/receipts/$id': {
+      id: '/dashboard/receipts/$id'
+      path: '/$id'
+      fullPath: '/dashboard/receipts/$id'
+      preLoaderRoute: typeof DashboardReceiptsIdRouteImport
+      parentRoute: typeof DashboardReceiptsRoute
+    }
     '/dashboard/edit/$id': {
       id: '/dashboard/edit/$id'
       path: '/edit/$id'
@@ -270,17 +364,34 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardReceiptsRouteChildren {
+  DashboardReceiptsIdRoute: typeof DashboardReceiptsIdRoute
+}
+
+const DashboardReceiptsRouteChildren: DashboardReceiptsRouteChildren = {
+  DashboardReceiptsIdRoute: DashboardReceiptsIdRoute,
+}
+
+const DashboardReceiptsRouteWithChildren =
+  DashboardReceiptsRoute._addFileChildren(DashboardReceiptsRouteChildren)
+
 interface DashboardRouteChildren {
   DashboardLandlordRoute: typeof DashboardLandlordRoute
   DashboardNewRoute: typeof DashboardNewRoute
+  DashboardReceiptsRoute: typeof DashboardReceiptsRouteWithChildren
+  DashboardRemindersRoute: typeof DashboardRemindersRoute
   DashboardTenantRoute: typeof DashboardTenantRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardEditIdRoute: typeof DashboardEditIdRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardLandlordRoute: DashboardLandlordRoute,
   DashboardNewRoute: DashboardNewRoute,
+  DashboardReceiptsRoute: DashboardReceiptsRouteWithChildren,
+  DashboardRemindersRoute: DashboardRemindersRoute,
   DashboardTenantRoute: DashboardTenantRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
   DashboardEditIdRoute: DashboardEditIdRoute,
 }
 
@@ -308,7 +419,18 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   FavoritesRoute: FavoritesRoute,
   PropertiesRoute: PropertiesRouteWithChildren,
+  OnboardingRoleRoute: OnboardingRoleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
