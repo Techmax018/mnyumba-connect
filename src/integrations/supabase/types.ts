@@ -281,6 +281,45 @@ export type Database = {
           },
         ]
       }
+      reminders: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: Database["public"]["Enums"]["reminder_kind"]
+          link: string | null
+          related_id: string | null
+          remind_at: string
+          sent: boolean
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["reminder_kind"]
+          link?: string | null
+          related_id?: string | null
+          remind_at: string
+          sent?: boolean
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["reminder_kind"]
+          link?: string | null
+          related_id?: string | null
+          remind_at?: string
+          sent?: boolean
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       rent_payments: {
         Row: {
           amount_kes: number
@@ -468,6 +507,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      process_reminders: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "tenant" | "landlord"
@@ -478,6 +518,7 @@ export type Database = {
         | "payment_received"
         | "payment_confirmed"
         | "system"
+        | "reminder"
       payment_status: "pending" | "paid" | "failed" | "refunded"
       property_status: "available" | "rented" | "archived"
       property_type:
@@ -487,6 +528,7 @@ export type Database = {
         | "two_br"
         | "three_br"
         | "four_br_plus"
+      reminder_kind: "rent_due" | "wifi_renewal" | "inquiry_followup" | "custom"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -622,6 +664,7 @@ export const Constants = {
         "payment_received",
         "payment_confirmed",
         "system",
+        "reminder",
       ],
       payment_status: ["pending", "paid", "failed", "refunded"],
       property_status: ["available", "rented", "archived"],
@@ -633,6 +676,7 @@ export const Constants = {
         "three_br",
         "four_br_plus",
       ],
+      reminder_kind: ["rent_due", "wifi_renewal", "inquiry_followup", "custom"],
     },
   },
 } as const

@@ -15,6 +15,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { Toaster } from "@/components/ui/sonner";
+import { RoleGate } from "@/components/RoleGate";
 
 function NotFoundComponent() {
   return (
@@ -87,6 +88,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
+          <RoleGate />
           <div className="flex min-h-screen flex-col bg-background">
             <Header />
             <main className="flex-1"><Outlet /></main>
