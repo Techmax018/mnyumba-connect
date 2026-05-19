@@ -88,6 +88,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
+          <RoleGate />
           <div className="flex min-h-screen flex-col bg-background">
             <Header />
             <main className="flex-1"><Outlet /></main>
