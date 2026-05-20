@@ -98,17 +98,31 @@ function PropertyDetail() {
 
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <Badge>{propertyTypeLabel(p.property_type)}</Badge>
-            <Badge variant={p.status === "available" ? "default" : "secondary"}>{p.status}</Badge>
+            {p.status === "available" ? (
+              <Badge className="bg-emerald-500 hover:bg-emerald-500 text-white gap-1">
+                <span className="h-2 w-2 rounded-full bg-white animate-pulse" />Available now
+              </Badge>
+            ) : (
+              <Badge variant="secondary" className="capitalize">{p.status}</Badge>
+            )}
             <FavoriteButton propertyId={p.id} className="ml-auto" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{p.title}</h1>
           <div className="flex items-center text-muted-foreground gap-1 mb-4"><MapPin className="h-4 w-4" />{p.location}, {p.city}</div>
           <div className="text-3xl font-bold text-primary mb-6">{formatKES(p.monthly_rent_kes)}<span className="text-base font-normal text-muted-foreground"> /month</span></div>
 
+          {p.status === "available" && (
+            <Card className="p-4 mb-6 border-emerald-500/40 bg-emerald-500/5 lg:hidden">
+              <p className="text-sm font-medium mb-3">This property is available for immediate booking.</p>
+              <RentPayButton propertyId={p.id} landlordId={p.landlord_id} amount={p.monthly_rent_kes} label="Book & pay first month" />
+            </Card>
+          )}
+
           <div className="flex flex-wrap gap-6 py-4 border-y mb-6">
             {p.bedrooms > 0 && <div className="flex items-center gap-2"><Bed className="h-5 w-5 text-primary" /><div><div className="font-semibold">{p.bedrooms}</div><div className="text-xs text-muted-foreground">Bedrooms</div></div></div>}
             <div className="flex items-center gap-2"><Bath className="h-5 w-5 text-primary" /><div><div className="font-semibold">{p.bathrooms}</div><div className="text-xs text-muted-foreground">Bathrooms</div></div></div>
           </div>
+
 
           <h2 className="text-xl font-semibold mb-3">About this property</h2>
           <p className="text-muted-foreground whitespace-pre-wrap mb-8">{p.description || "No description provided."}</p>
@@ -126,6 +140,20 @@ function PropertyDetail() {
         </div>
 
         <aside className="lg:sticky lg:top-20 self-start space-y-4">
+          <Card className="p-5 border-emerald-500/40">
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="font-semibold">Book this property</h3>
+              {p.status === "available" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-emerald-600 flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />Available
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">Reserve by paying your first month's rent. Receipt is added to your dashboard.</p>
+            <div className="text-2xl font-bold text-primary mb-3">{formatKES(p.monthly_rent_kes)}<span className="text-sm font-normal text-muted-foreground">/mo</span></div>
+            <RentPayButton propertyId={p.id} landlordId={p.landlord_id} amount={p.monthly_rent_kes} label={p.status === "available" ? "Book & pay first month" : "Pay rent"} />
+            <div className="text-[11px] text-muted-foreground mt-2 text-center">Secure · Instant receipt · Cancel anytime before move-in</div>
+          </Card>
           <Card className="p-5">
             <h3 className="font-semibold mb-1">Contact landlord</h3>
             <p className="text-xs text-muted-foreground mb-4">{landlord?.full_name || "Verified landlord"}</p>
@@ -137,11 +165,7 @@ function PropertyDetail() {
               {!user && <p className="text-xs text-muted-foreground text-center">You'll be asked to sign in</p>}
             </form>
           </Card>
-          <Card className="p-5">
-            <h3 className="font-semibold mb-1">Rent payment</h3>
-            <p className="text-xs text-muted-foreground mb-4">Pay your monthly rent securely. A receipt is added to your dashboard.</p>
-            <RentPayButton propertyId={p.id} landlordId={p.landlord_id} amount={p.monthly_rent_kes} />
-          </Card>
+
         </aside>
       </div>
     </div>
