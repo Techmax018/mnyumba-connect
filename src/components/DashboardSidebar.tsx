@@ -6,7 +6,7 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import {
   LayoutDashboard, Heart, MessageSquare, Wallet, Wifi, Receipt, Bell,
-  Building2, Plus, BarChart3, Home as HomeIcon,
+  Building2, Plus, BarChart3, Home as HomeIcon, Settings,
 } from "lucide-react";
 
 type Item = { title: string; url: string; icon: any };
@@ -19,6 +19,7 @@ const tenantItems: Item[] = [
   { title: "WiFi", url: "/dashboard/tenant?tab=wifi", icon: Wifi },
   { title: "Receipts", url: "/dashboard/receipts", icon: Receipt },
   { title: "Reminders", url: "/dashboard/reminders", icon: Bell },
+  { title: "Account", url: "/dashboard/account", icon: Settings },
 ];
 
 const landlordItems: Item[] = [
@@ -29,6 +30,7 @@ const landlordItems: Item[] = [
   { title: "Tracker", url: "/dashboard/landlord?tab=tracker", icon: BarChart3 },
   { title: "Receipts", url: "/dashboard/receipts", icon: Receipt },
   { title: "Reminders", url: "/dashboard/reminders", icon: Bell },
+  { title: "Account", url: "/dashboard/account", icon: Settings },
 ];
 
 export function DashboardSidebar() {

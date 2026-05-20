@@ -24,6 +24,7 @@ import { Route as DashboardRemindersRouteImport } from './routes/dashboard.remin
 import { Route as DashboardReceiptsRouteImport } from './routes/dashboard.receipts'
 import { Route as DashboardNewRouteImport } from './routes/dashboard.new'
 import { Route as DashboardLandlordRouteImport } from './routes/dashboard.landlord'
+import { Route as DashboardAccountRouteImport } from './routes/dashboard.account'
 import { Route as DashboardReceiptsIdRouteImport } from './routes/dashboard.receipts.$id'
 import { Route as DashboardEditIdRouteImport } from './routes/dashboard.edit.$id'
 
@@ -102,6 +103,11 @@ const DashboardLandlordRoute = DashboardLandlordRouteImport.update({
   path: '/landlord',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAccountRoute = DashboardAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardReceiptsIdRoute = DashboardReceiptsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
   '/dashboard/receipts': typeof DashboardReceiptsRouteWithChildren
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
   '/dashboard/receipts': typeof DashboardReceiptsRouteWithChildren
@@ -159,6 +167,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
   '/dashboard/receipts': typeof DashboardReceiptsRouteWithChildren
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/favorites'
     | '/properties'
+    | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
     | '/dashboard/receipts'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/favorites'
     | '/properties'
+    | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
     | '/dashboard/receipts'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/favorites'
     | '/properties'
+    | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
     | '/dashboard/receipts'
@@ -347,6 +359,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardLandlordRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/account': {
+      id: '/dashboard/account'
+      path: '/account'
+      fullPath: '/dashboard/account'
+      preLoaderRoute: typeof DashboardAccountRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/receipts/$id': {
       id: '/dashboard/receipts/$id'
       path: '/$id'
@@ -376,6 +395,7 @@ const DashboardReceiptsRouteWithChildren =
   DashboardReceiptsRoute._addFileChildren(DashboardReceiptsRouteChildren)
 
 interface DashboardRouteChildren {
+  DashboardAccountRoute: typeof DashboardAccountRoute
   DashboardLandlordRoute: typeof DashboardLandlordRoute
   DashboardNewRoute: typeof DashboardNewRoute
   DashboardReceiptsRoute: typeof DashboardReceiptsRouteWithChildren
@@ -386,6 +406,7 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAccountRoute: DashboardAccountRoute,
   DashboardLandlordRoute: DashboardLandlordRoute,
   DashboardNewRoute: DashboardNewRoute,
   DashboardReceiptsRoute: DashboardReceiptsRouteWithChildren,
