@@ -1,0 +1,1 @@
+CREATE POLICY "Notif: own delete" ON public.notifications FOR DELETE USING (auth.uid() = user_id);
