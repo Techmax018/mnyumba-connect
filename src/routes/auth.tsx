@@ -53,7 +53,7 @@ function AuthPage() {
       if (data.user) {
         await supabase.from("user_roles").insert({ user_id: data.user.id, role });
         toast.success("Welcome to Mnyumba Connect!");
-        navigate({ to: role === "landlord" ? "/dashboard" : "/properties" });
+        navigate({ to: role === "landlord" ? "/dashboard/landlord" : "/dashboard/tenant" });
       }
     } catch (err: any) {
       toast.error(err.message || "Sign up failed");
@@ -69,7 +69,17 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast.success("Welcome back!");
-      navigate({ to: "/" });
+      // Look up role to land on the right dashboard
+      const { data: ses } = await supabase.auth.getSession();
+      const uid = ses.session?.user?.id;
+      if (uid) {
+        const { data: r } = await supabase.from("user_roles").select("role").eq("user_id", uid).maybeSingle();
+        if (r?.role === "landlord") navigate({ to: "/dashboard/landlord" });
+        else if (r?.role === "tenant") navigate({ to: "/dashboard/tenant" });
+        else navigate({ to: "/onboarding/role" });
+      } else {
+        navigate({ to: "/" });
+      }
     } catch (err: any) {
       toast.error(err.message || "Sign in failed");
     } finally {
@@ -79,10 +89,12 @@ function AuthPage() {
 
   const google = async () => {
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/onboarding/role`,
+    });
     if (result.error) { toast.error("Google sign in failed"); setLoading(false); return; }
     if (result.redirected) return;
-    navigate({ to: "/" });
+    navigate({ to: "/onboarding/role" });
   };
 
   return (
