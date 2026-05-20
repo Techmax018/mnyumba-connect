@@ -13,6 +13,7 @@ type Item = { title: string; url: string; icon: any };
 
 const tenantItems: Item[] = [
   { title: "Overview", url: "/dashboard/tenant", icon: LayoutDashboard },
+  { title: "Browse", url: "/dashboard/tenant?tab=browse", icon: HomeIcon },
   { title: "Favorites", url: "/dashboard/tenant?tab=favorites", icon: Heart },
   { title: "Inquiries", url: "/dashboard/tenant?tab=inquiries", icon: MessageSquare },
   { title: "Rent payments", url: "/dashboard/tenant?tab=payments", icon: Wallet },

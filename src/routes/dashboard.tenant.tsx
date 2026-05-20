@@ -24,6 +24,7 @@ function TenantDashboard() {
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [payments, setPayments] = useState<any[]>([]);
   const [wifi, setWifi] = useState<any[]>([]);
+  const [available, setAvailable] = useState<any[]>([]);
   const [busy, setBusy] = useState(true);
 
   useEffect(() => { if (!loading && !user) navigate({ to: "/auth" }); }, [loading, user, navigate]);
@@ -31,16 +32,18 @@ function TenantDashboard() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const [{ data: f }, { data: i }, { data: p }, { data: w }] = await Promise.all([
+      const [{ data: f }, { data: i }, { data: p }, { data: w }, { data: avail }] = await Promise.all([
         supabase.from("favorites").select("created_at, properties(*)").eq("user_id", user.id).order("created_at", { ascending: false }),
         supabase.from("inquiries").select("*, properties(title, monthly_rent_kes, landlord_id)").eq("tenant_id", user.id).order("created_at", { ascending: false }),
         supabase.from("rent_payments").select("*, properties(title, location, city)").eq("tenant_id", user.id).order("period_month", { ascending: false }),
         supabase.from("wifi_payments").select("*, properties(title, location, city)").eq("tenant_id", user.id).order("period_month", { ascending: false }),
+        supabase.from("properties").select("*").eq("status", "available").order("created_at", { ascending: false }).limit(12),
       ]);
       setFavs((f ?? []).map((r: any) => r.properties).filter(Boolean));
       setInquiries(i ?? []);
       setPayments(p ?? []);
       setWifi(w ?? []);
+      setAvailable(avail ?? []);
       setBusy(false);
     })();
   }, [user]);
@@ -67,11 +70,29 @@ function TenantDashboard() {
 
       <Tabs defaultValue={search.tab}>
         <TabsList>
+          <TabsTrigger value="browse">Browse</TabsTrigger>
           <TabsTrigger value="favorites">Favorites</TabsTrigger>
           <TabsTrigger value="inquiries">My inquiries</TabsTrigger>
           <TabsTrigger value="payments">Rent payments</TabsTrigger>
           <TabsTrigger value="wifi">WiFi</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="browse" className="mt-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-semibold">Available now</h2>
+              <p className="text-xs text-muted-foreground">Click any property to view details and book.</p>
+            </div>
+            <Link to="/properties"><Button variant="outline" size="sm">See all</Button></Link>
+          </div>
+          {available.length === 0 ? (
+            <Card className="p-12 text-center border-dashed border-2"><p className="text-muted-foreground">No available listings right now.</p></Card>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {available.map((p) => <PropertyCard key={p.id} p={p} />)}
+            </div>
+          )}
+        </TabsContent>
 
         <TabsContent value="favorites" className="mt-6">
           {favs.length === 0 ? (
@@ -85,6 +106,7 @@ function TenantDashboard() {
             </div>
           )}
         </TabsContent>
+
 
         <TabsContent value="inquiries" className="mt-6 space-y-3">
           {inquiries.length === 0 ? (

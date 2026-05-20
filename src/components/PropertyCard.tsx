@@ -34,7 +34,13 @@ export function PropertyCard({ p }: { p: PropertyCardData }) {
           )}
           <Badge className="absolute top-3 left-3 bg-background/95 text-foreground hover:bg-background/95">{propertyTypeLabel(p.property_type)}</Badge>
           <FavoriteButton propertyId={p.id} className="absolute top-3 right-3" size="sm" />
-          {p.status === "rented" && <Badge variant="destructive" className="absolute bottom-3 right-3">Rented</Badge>}
+          {p.status === "available" ? (
+            <Badge className="absolute bottom-3 right-3 bg-emerald-500 hover:bg-emerald-500 text-white gap-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />Available
+            </Badge>
+          ) : p.status === "rented" ? (
+            <Badge variant="destructive" className="absolute bottom-3 right-3">Rented</Badge>
+          ) : null}
         </div>
         <div className="p-4 space-y-2">
           <div className="flex items-start justify-between gap-2">
