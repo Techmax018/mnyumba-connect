@@ -81,7 +81,7 @@ function LandlordDashboard() {
         <Link to="/dashboard/new"><Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground"><Plus className="mr-2 h-4 w-4" />New listing</Button></Link>
       </div>
 
-      <Tabs defaultValue={search.tab}>
+      <Tabs value={search.tab} onValueChange={(v) => navigate({ to: "/dashboard/landlord", search: { tab: v } })}>
         <TabsList>
           <TabsTrigger value="listings">Listings ({props.length})</TabsTrigger>
           <TabsTrigger value="inquiries">Inquiries ({inquiries.length})</TabsTrigger>
