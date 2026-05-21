@@ -68,7 +68,7 @@ function TenantDashboard() {
         <Card className="p-4"><div className="flex items-center gap-2 text-xs text-muted-foreground mb-1"><MapPin className="h-4 w-4" />Active rentals</div><div className="text-2xl font-bold">{activeRentals}</div></Card>
       </div>
 
-      <Tabs defaultValue={search.tab}>
+      <Tabs value={search.tab} onValueChange={(v) => navigate({ to: "/dashboard/tenant", search: { tab: v } })}>
         <TabsList>
           <TabsTrigger value="browse">Browse</TabsTrigger>
           <TabsTrigger value="favorites">Favorites</TabsTrigger>
