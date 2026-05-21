@@ -25,11 +25,9 @@ export function WifiSection({ propertyId, landlordId }: { propertyId: string; la
     if (!user) return toast.error("Please sign in to pay");
     setPaying(v.id);
     const period = new Date(); period.setDate(1);
-    const { error } = await supabase.from("wifi_payments").insert({
-      tenant_id: user.id, landlord_id: landlordId, property_id: propertyId,
-      vendor_id: v.id, vendor_name: v.name, amount_kes: v.monthly_price_kes,
-      period_month: period.toISOString().slice(0, 10),
-      status: "paid", paid_at: new Date().toISOString(),
+    const { error } = await supabase.rpc("record_wifi_payment", {
+      p_vendor_id: v.id,
+      p_period_month: period.toISOString().slice(0, 10),
     });
     setPaying(null);
     if (error) return toast.error(error.message);
