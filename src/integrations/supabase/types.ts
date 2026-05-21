@@ -500,6 +500,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_role: {
+        Args: { _role: Database["public"]["Enums"]["app_role"] }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -508,6 +512,14 @@ export type Database = {
         Returns: boolean
       }
       process_reminders: { Args: never; Returns: undefined }
+      record_rent_payment: {
+        Args: { p_period_month: string; p_property_id: string }
+        Returns: string
+      }
+      record_wifi_payment: {
+        Args: { p_period_month: string; p_vendor_id: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "tenant" | "landlord"
