@@ -26,27 +26,13 @@ export function RentPayButton({
     if (!user) { toast.error("Sign in to pay rent"); navigate({ to: "/auth" }); return; }
     setBusy(true);
     const periodMonth = `${period}-01`;
-    // Create the payment record (pending). When Stripe is enabled, this will redirect to Checkout.
-    const { data, error } = await supabase
-      .from("rent_payments")
-      .insert({
-        tenant_id: user.id,
-        landlord_id: landlordId,
-        property_id: propertyId,
-        amount_kes: amount,
-        period_month: periodMonth,
-        status: "pending",
-      })
-      .select()
-      .single();
-    if (error) { setBusy(false); toast.error(error.message); return; }
-    // Simulated payment confirmation — marks as paid (replace with Stripe Checkout webhook later)
-    const { error: updErr } = await supabase
-      .from("rent_payments")
-      .update({ status: "paid", paid_at: new Date().toISOString() })
-      .eq("id", data.id);
+    // Server-side RPC pulls the authoritative amount + landlord from the property row.
+    const { error } = await supabase.rpc("record_rent_payment", {
+      p_property_id: propertyId,
+      p_period_month: periodMonth,
+    });
     setBusy(false);
-    if (updErr) { toast.error(updErr.message); return; }
+    if (error) { toast.error(error.message); return; }
     toast.success(`Payment of ${formatKES(amount)} recorded`);
     setOpen(false);
     navigate({ to: "/dashboard/tenant", search: { tab: "payments" } as any });
