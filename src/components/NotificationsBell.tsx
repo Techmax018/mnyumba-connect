@@ -42,15 +42,15 @@ export function NotificationsBell() {
   useEffect(() => {
     if (!user) { setItems([]); return; }
     load();
-    const ch = supabase
-      .channel(`notifs:${user.id}`)
-      .on("postgres_changes", {
-        event: "INSERT", schema: "public", table: "notifications",
-        filter: `user_id=eq.${user.id}`,
-      }, (payload) => {
-        setItems((prev) => [payload.new as Notif, ...prev].slice(0, 20));
-      })
-      .subscribe();
+    // Unique channel name avoids "callbacks after subscribe()" when StrictMode
+    // remounts and Supabase returns the cached, already-subscribed channel.
+    const ch = supabase.channel(`notifs:${user.id}:${Math.random().toString(36).slice(2)}`);
+    ch.on("postgres_changes", {
+      event: "INSERT", schema: "public", table: "notifications",
+      filter: `user_id=eq.${user.id}`,
+    }, (payload) => {
+      setItems((prev) => [payload.new as Notif, ...prev].slice(0, 20));
+    }).subscribe();
     return () => { supabase.removeChannel(ch); };
   }, [user?.id]);
 
