@@ -25,7 +25,7 @@ function RolePicker() {
   const choose = async (r: "tenant" | "landlord") => {
     if (!user) return;
     setBusy(r);
-    const { error } = await supabase.from("user_roles").insert({ user_id: user.id, role: r });
+    const { error } = await supabase.rpc("claim_role", { _role: r });
     if (error) { toast.error(error.message); setBusy(null); return; }
     await refreshRole();
     toast.success(`Welcome — you're set up as a ${r}`);

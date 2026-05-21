@@ -51,7 +51,7 @@ function AuthPage() {
       });
       if (error) throw error;
       if (data.user) {
-        await supabase.from("user_roles").insert({ user_id: data.user.id, role });
+        await supabase.rpc("claim_role", { _role: role });
         toast.success("Welcome to Mnyumba Connect!");
         navigate({ to: role === "landlord" ? "/dashboard/landlord" : "/dashboard/tenant" });
       }
