@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mnyumba-connect-property.lovable.app/sitemap.xml

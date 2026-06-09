@@ -1,0 +1,18 @@
+# Mnyumba Connect
+
+> Mnyumba Connect is Kenya's direct-from-landlord rental marketplace. Tenants discover verified homes across Nairobi, Mombasa, Kisumu, Nakuru, Eldoret and other Kenyan cities; landlords list properties and manage bookings, rent payments and inquiries in one dashboard.
+
+## Pages
+
+- [Home](/): Search rentals by city, type and price across Kenya.
+- [Browse properties](/properties): Filterable listings of every available rental.
+- [About](/about): Our mission and how Mnyumba Connect works.
+- [Contact](/contact): Get in touch with the team.
+
+## Guides
+
+- [Rental income tax in Kenya](/blog/rental-income-tax-kenya): How landlords calculate, file and pay Monthly Rental Income (MRI) tax with KRA.
+
+## Optional
+
+- [Sign in or create an account](/auth): Tenant and landlord onboarding.

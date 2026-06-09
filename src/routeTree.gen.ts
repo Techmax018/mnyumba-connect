@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -25,9 +26,15 @@ import { Route as DashboardReceiptsRouteImport } from './routes/dashboard.receip
 import { Route as DashboardNewRouteImport } from './routes/dashboard.new'
 import { Route as DashboardLandlordRouteImport } from './routes/dashboard.landlord'
 import { Route as DashboardAccountRouteImport } from './routes/dashboard.account'
+import { Route as BlogRentalIncomeTaxKenyaRouteImport } from './routes/blog.rental-income-tax-kenya'
 import { Route as DashboardReceiptsIdRouteImport } from './routes/dashboard.receipts.$id'
 import { Route as DashboardEditIdRouteImport } from './routes/dashboard.edit.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertiesRoute = PropertiesRouteImport.update({
   id: '/properties',
   path: '/properties',
@@ -108,6 +115,12 @@ const DashboardAccountRoute = DashboardAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => DashboardRoute,
 } as any)
+const BlogRentalIncomeTaxKenyaRoute =
+  BlogRentalIncomeTaxKenyaRouteImport.update({
+    id: '/blog/rental-income-tax-kenya',
+    path: '/blog/rental-income-tax-kenya',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardReceiptsIdRoute = DashboardReceiptsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -127,6 +140,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/rental-income-tax-kenya': typeof BlogRentalIncomeTaxKenyaRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -146,6 +161,8 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/rental-income-tax-kenya': typeof BlogRentalIncomeTaxKenyaRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -167,6 +184,8 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/rental-income-tax-kenya': typeof BlogRentalIncomeTaxKenyaRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -189,6 +208,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/favorites'
     | '/properties'
+    | '/sitemap.xml'
+    | '/blog/rental-income-tax-kenya'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -208,6 +229,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/favorites'
     | '/properties'
+    | '/sitemap.xml'
+    | '/blog/rental-income-tax-kenya'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -228,6 +251,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/favorites'
     | '/properties'
+    | '/sitemap.xml'
+    | '/blog/rental-income-tax-kenya'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -249,11 +274,20 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   FavoritesRoute: typeof FavoritesRoute
   PropertiesRoute: typeof PropertiesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogRentalIncomeTaxKenyaRoute: typeof BlogRentalIncomeTaxKenyaRoute
   OnboardingRoleRoute: typeof OnboardingRoleRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/properties': {
       id: '/properties'
       path: '/properties'
@@ -366,6 +400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAccountRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/blog/rental-income-tax-kenya': {
+      id: '/blog/rental-income-tax-kenya'
+      path: '/blog/rental-income-tax-kenya'
+      fullPath: '/blog/rental-income-tax-kenya'
+      preLoaderRoute: typeof BlogRentalIncomeTaxKenyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/receipts/$id': {
       id: '/dashboard/receipts/$id'
       path: '/$id'
@@ -440,6 +481,8 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   FavoritesRoute: FavoritesRoute,
   PropertiesRoute: PropertiesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogRentalIncomeTaxKenyaRoute: BlogRentalIncomeTaxKenyaRoute,
   OnboardingRoleRoute: OnboardingRoleRoute,
 }
 export const routeTree = rootRouteImport

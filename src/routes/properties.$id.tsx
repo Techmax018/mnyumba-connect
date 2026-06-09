@@ -17,6 +17,65 @@ import { WifiSection } from "@/components/WifiSection";
 
 export const Route = createFileRoute("/properties/$id")({
   component: PropertyDetail,
+  loader: async ({ params }) => {
+    const { data } = await supabase
+      .from("properties")
+      .select("id, title, description, city, location, monthly_rent_kes, images, property_type, bedrooms, bathrooms")
+      .eq("id", params.id)
+      .maybeSingle();
+    return { property: data };
+  },
+  head: ({ params, loaderData }) => {
+    const p = loaderData?.property;
+    const url = `https://mnyumba-connect-property.lovable.app/properties/${params.id}`;
+    if (!p) {
+      return {
+        meta: [
+          { title: "Property — Mnyumba Connect" },
+          { name: "description", content: "View this Kenyan rental on Mnyumba Connect — direct from the landlord." },
+          { property: "og:url", content: url },
+        ],
+        links: [{ rel: "canonical", href: url }],
+      };
+    }
+    const title = `${p.title} in ${p.city} — KES ${Number(p.monthly_rent_kes).toLocaleString()}/mo`;
+    const trimmedTitle = title.length > 60 ? `${p.title.slice(0, 40)} — ${p.city}` : title;
+    const rawDesc = (p.description || `${p.title} for rent in ${p.location}, ${p.city}. ${p.bedrooms || 0} bed · ${p.bathrooms || 0} bath. Contact the landlord direct on Mnyumba Connect.`).replace(/\s+/g, " ").trim();
+    const description = rawDesc.length > 158 ? rawDesc.slice(0, 155) + "..." : rawDesc;
+    const image = Array.isArray(p.images) && p.images[0] ? p.images[0] : undefined;
+    return {
+      meta: [
+        { title: trimmedTitle },
+        { name: "description", content: description },
+        { property: "og:title", content: trimmedTitle },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "product" },
+        ...(image ? [{ property: "og:image", content: image }, { name: "twitter:image", content: image }] : []),
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: p.title,
+            description: rawDesc,
+            image: image ? [image] : undefined,
+            category: p.property_type,
+            offers: {
+              "@type": "Offer",
+              price: p.monthly_rent_kes,
+              priceCurrency: "KES",
+              availability: "https://schema.org/InStock",
+              url,
+            },
+          }),
+        },
+      ],
+    };
+  },
 });
 
 function PropertyDetail() {
@@ -89,7 +148,7 @@ function PropertyDetail() {
           {p.images?.length > 1 && (
             <div className="grid grid-cols-5 gap-2 mb-6">
               {p.images.map((src: string, i: number) => (
-                <button key={i} onClick={() => setActiveImg(i)} className={`aspect-square rounded-lg overflow-hidden border-2 ${activeImg === i ? "border-primary" : "border-transparent"}`}>
+                <button key={i} type="button" onClick={() => setActiveImg(i)} aria-label={`View image ${i + 1} of ${p.images.length}`} aria-pressed={activeImg === i} className={`aspect-square rounded-lg overflow-hidden border-2 ${activeImg === i ? "border-primary" : "border-transparent"}`}>
                   <img src={src} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}

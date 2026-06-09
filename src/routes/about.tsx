@@ -3,7 +3,17 @@ import { Building2, Heart, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   component: About,
-  head: () => ({ meta: [{ title: "About — Mnyumba Connect" }, { name: "description", content: "Mnyumba Connect makes finding and listing rentals across Kenya simple and trusted." }] }),
+  head: () => ({
+    meta: [
+      { title: "About Mnyumba Connect — Kenya's direct rental marketplace" },
+      { name: "description", content: "Learn how Mnyumba Connect links Kenyan tenants and landlords directly — verified listings, transparent KES pricing and no broker fees across every major city." },
+      { property: "og:title", content: "About Mnyumba Connect — Kenya's direct rental marketplace" },
+      { property: "og:description", content: "How we connect Kenyan tenants and landlords directly: verified listings, transparent pricing, no brokers." },
+      { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/about" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/about" }],
+  }),
 });
 
 function About() {
@@ -20,7 +30,7 @@ function About() {
         ].map(({ icon: Icon, title, text }) => (
           <div key={title} className="rounded-xl bg-card p-6 shadow-card">
             <div className="grid h-12 w-12 place-items-center rounded-lg bg-gradient-primary text-primary-foreground mb-4"><Icon className="h-6 w-6" /></div>
-            <h3 className="text-lg font-semibold mb-2">{title}</h3>
+            <h2 className="text-lg font-semibold mb-2">{title}</h2>
             <p className="text-sm text-muted-foreground">{text}</p>
           </div>
         ))}

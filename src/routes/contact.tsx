@@ -11,7 +11,17 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   component: Contact,
-  head: () => ({ meta: [{ title: "Contact — Mnyumba Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Contact Mnyumba Connect — Kenya rentals support" },
+      { name: "description", content: "Reach the Mnyumba Connect team for tenant questions, landlord onboarding, partnerships or feedback. We typically respond within a business day." },
+      { property: "og:title", content: "Contact Mnyumba Connect" },
+      { property: "og:description", content: "Get in touch for tenant support, landlord onboarding or partnership ideas." },
+      { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/contact" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/contact" }],
+  }),
 });
 
 function Contact() {
