@@ -11,9 +11,14 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Mnyumba Connect — Rentals across Kenya" },
-      { name: "description", content: "Search verified rentals in Nairobi, Mombasa, Kisumu, Nakuru and more — direct from landlords." },
+      { title: "Mnyumba Connect — Rentals direct from landlords in Kenya" },
+      { name: "description", content: "Search verified rentals in Nairobi, Mombasa, Kisumu, Nakuru, Eldoret and more — bedsitters to family homes, direct from Kenyan landlords with no broker fees." },
+      { property: "og:title", content: "Mnyumba Connect — Rentals direct from landlords in Kenya" },
+      { property: "og:description", content: "Verified Kenyan rentals from bedsitters to family homes — direct from landlords, no broker fees." },
+      { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/" }],
   }),
 });
 

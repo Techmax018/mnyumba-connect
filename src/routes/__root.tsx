@@ -56,16 +56,41 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Mnyumba Connect — Find your home in Kenya" },
       { name: "description", content: "Discover rentals across Nairobi, Mombasa, Kisumu and all major Kenyan cities. Direct from landlords." },
+      { property: "og:site_name", content: "Mnyumba Connect" },
       { property: "og:title", content: "Mnyumba Connect — Find your home in Kenya" },
       { property: "og:description", content: "Discover rentals across Nairobi, Mombasa, Kisumu and all major Kenyan cities. Direct from landlords." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Mnyumba Connect — Find your home in Kenya" },
       { name: "twitter:description", content: "Discover rentals across Nairobi, Mombasa, Kisumu and all major Kenyan cities. Direct from landlords." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/8b452d44-72d4-40c9-8670-278c2409fd4a" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/8b452d44-72d4-40c9-8670-278c2409fd4a" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "Mnyumba Connect",
+              url: "https://mnyumba-connect-property.lovable.app",
+              areaServed: "KE",
+            },
+            {
+              "@type": "WebSite",
+              name: "Mnyumba Connect",
+              url: "https://mnyumba-connect-property.lovable.app",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://mnyumba-connect-property.lovable.app/properties?city={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            },
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

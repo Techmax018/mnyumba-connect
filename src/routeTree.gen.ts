@@ -26,6 +26,7 @@ import { Route as DashboardReceiptsRouteImport } from './routes/dashboard.receip
 import { Route as DashboardNewRouteImport } from './routes/dashboard.new'
 import { Route as DashboardLandlordRouteImport } from './routes/dashboard.landlord'
 import { Route as DashboardAccountRouteImport } from './routes/dashboard.account'
+import { Route as BlogRentalIncomeTaxKenyaRouteImport } from './routes/blog.rental-income-tax-kenya'
 import { Route as DashboardReceiptsIdRouteImport } from './routes/dashboard.receipts.$id'
 import { Route as DashboardEditIdRouteImport } from './routes/dashboard.edit.$id'
 
@@ -114,6 +115,12 @@ const DashboardAccountRoute = DashboardAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => DashboardRoute,
 } as any)
+const BlogRentalIncomeTaxKenyaRoute =
+  BlogRentalIncomeTaxKenyaRouteImport.update({
+    id: '/blog/rental-income-tax-kenya',
+    path: '/blog/rental-income-tax-kenya',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardReceiptsIdRoute = DashboardReceiptsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -134,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/rental-income-tax-kenya': typeof BlogRentalIncomeTaxKenyaRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -154,6 +162,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/rental-income-tax-kenya': typeof BlogRentalIncomeTaxKenyaRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -176,6 +185,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/rental-income-tax-kenya': typeof BlogRentalIncomeTaxKenyaRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/properties'
     | '/sitemap.xml'
+    | '/blog/rental-income-tax-kenya'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/properties'
     | '/sitemap.xml'
+    | '/blog/rental-income-tax-kenya'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -240,6 +252,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/properties'
     | '/sitemap.xml'
+    | '/blog/rental-income-tax-kenya'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -262,6 +275,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   PropertiesRoute: typeof PropertiesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogRentalIncomeTaxKenyaRoute: typeof BlogRentalIncomeTaxKenyaRoute
   OnboardingRoleRoute: typeof OnboardingRoleRoute
 }
 
@@ -386,6 +400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAccountRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/blog/rental-income-tax-kenya': {
+      id: '/blog/rental-income-tax-kenya'
+      path: '/blog/rental-income-tax-kenya'
+      fullPath: '/blog/rental-income-tax-kenya'
+      preLoaderRoute: typeof BlogRentalIncomeTaxKenyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/receipts/$id': {
       id: '/dashboard/receipts/$id'
       path: '/$id'
@@ -461,8 +482,19 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   PropertiesRoute: PropertiesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogRentalIncomeTaxKenyaRoute: BlogRentalIncomeTaxKenyaRoute,
   OnboardingRoleRoute: OnboardingRoleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
