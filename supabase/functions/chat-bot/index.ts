@@ -48,7 +48,26 @@ serve(async (req) => {
       });
     }
 
-    const { messages } = await req.json();
+    const body = await req.json().catch(() => null);
+    const rawMessages = body?.messages;
+    if (!Array.isArray(rawMessages) || rawMessages.length === 0) {
+      return new Response(JSON.stringify({ error: "invalid_payload" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    // Clamp count, validate shape, truncate content, restrict role to user|assistant
+    const safeMessages = rawMessages.slice(-20).flatMap((m: any) => {
+      if (!m || typeof m !== "object") return [];
+      const role = m.role === "assistant" ? "assistant" : m.role === "user" ? "user" : null;
+      const content = typeof m.content === "string" ? m.content.slice(0, 4000) : null;
+      if (!role || !content) return [];
+      return [{ role, content }];
+    });
+    if (safeMessages.length === 0) {
+      return new Response(JSON.stringify({ error: "invalid_payload" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!KEY) throw new Error("LOVABLE_API_KEY missing");
 
@@ -58,7 +77,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         stream: true,
-        messages: [{ role: "system", content: SYSTEM }, ...messages],
+        messages: [{ role: "system", content: SYSTEM }, ...safeMessages],
       }),
     });
 
