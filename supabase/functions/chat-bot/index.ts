@@ -77,7 +77,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         stream: true,
-        messages: [{ role: "system", content: SYSTEM }, ...messages],
+        messages: [{ role: "system", content: SYSTEM }, ...safeMessages],
       }),
     });
 
