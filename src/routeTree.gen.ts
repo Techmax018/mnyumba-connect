@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -28,6 +29,11 @@ import { Route as DashboardAccountRouteImport } from './routes/dashboard.account
 import { Route as DashboardReceiptsIdRouteImport } from './routes/dashboard.receipts.$id'
 import { Route as DashboardEditIdRouteImport } from './routes/dashboard.edit.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertiesRoute = PropertiesRouteImport.update({
   id: '/properties',
   path: '/properties',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/properties': typeof PropertiesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/landlord': typeof DashboardLandlordRoute
   '/dashboard/new': typeof DashboardNewRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/favorites'
     | '/properties'
+    | '/sitemap.xml'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/favorites'
     | '/properties'
+    | '/sitemap.xml'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/favorites'
     | '/properties'
+    | '/sitemap.xml'
     | '/dashboard/account'
     | '/dashboard/landlord'
     | '/dashboard/new'
@@ -249,11 +261,19 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   FavoritesRoute: typeof FavoritesRoute
   PropertiesRoute: typeof PropertiesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   OnboardingRoleRoute: typeof OnboardingRoleRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/properties': {
       id: '/properties'
       path: '/properties'
@@ -440,8 +460,19 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   FavoritesRoute: FavoritesRoute,
   PropertiesRoute: PropertiesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   OnboardingRoleRoute: OnboardingRoleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

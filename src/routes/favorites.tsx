@@ -8,7 +8,18 @@ import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/favorites")({
   component: Favorites,
-  head: () => ({ meta: [{ title: "My favorites — Mnyumba Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Saved rentals — Mnyumba Connect" },
+      { name: "description", content: "Your shortlisted Kenyan rentals in one place. Compare saved bedsitters, apartments and houses and pick up where you left off." },
+      { property: "og:title", content: "Saved rentals — Mnyumba Connect" },
+      { property: "og:description", content: "Shortlist Kenyan rentals and compare them in one place." },
+      { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/favorites" },
+      { property: "og:type", content: "website" },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/favorites" }],
+  }),
 });
 
 function Favorites() {

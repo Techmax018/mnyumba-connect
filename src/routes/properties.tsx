@@ -21,7 +21,17 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/properties")({
   validateSearch: searchSchema,
   component: PropertiesPage,
-  head: () => ({ meta: [{ title: "Browse properties — Mnyumba Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Browse rentals in Kenya — Mnyumba Connect" },
+      { name: "description", content: "Filter verified rentals by city, type, price and amenities. Bedsitters, apartments and houses from KES 3,000 across Nairobi, Mombasa, Kisumu and more." },
+      { property: "og:title", content: "Browse rentals across Kenya — Mnyumba Connect" },
+      { property: "og:description", content: "Verified bedsitters, apartments and houses direct from landlords. Filter by city, price and amenities." },
+      { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/properties" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/properties" }],
+  }),
 });
 
 function PropertiesPage() {
