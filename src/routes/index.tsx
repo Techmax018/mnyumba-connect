@@ -18,7 +18,10 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/" }],
+    links: [
+      { rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/" },
+      { rel: "preload", as: "image", href: heroImg, fetchpriority: "high" } as any,
+    ],
   }),
 });
 
