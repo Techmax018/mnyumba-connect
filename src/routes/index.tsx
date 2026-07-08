@@ -18,7 +18,10 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/" }],
+    links: [
+      { rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/" },
+      { rel: "preload", as: "image", href: heroImg, fetchpriority: "high" } as any,
+    ],
   }),
 });
 
@@ -39,7 +42,7 @@ function Index() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroImg} alt="Modern Kenyan apartments" className="h-full w-full object-cover" />
+          <img src={heroImg} alt="Modern Kenyan apartments" width={1920} height={1080} fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-accent/55" />
           <div className="absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-accent/30 blur-3xl" />
           <div className="absolute -top-20 -left-10 h-72 w-72 rounded-full bg-primary-glow/30 blur-3xl" />
@@ -69,7 +72,7 @@ function Index() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 mt-6 text-sm">
-              <span className="opacity-80">Popular:</span>
+              <span className="font-medium">Popular:</span>
               {["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"].map(c => (
                 <Link key={c} to="/properties" search={{ city: c } as any} className="px-2.5 py-0.5 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-base">{c}</Link>
               ))}
