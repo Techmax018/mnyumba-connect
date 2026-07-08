@@ -63,6 +63,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Mnyumba Connect — Find your home in Kenya" },
       { name: "twitter:description", content: "Discover rentals across Nairobi, Mombasa, Kisumu and all major Kenyan cities. Direct from landlords." },
+      { name: "google-site-verification", content: "bnltZwaHtsbIzu67V7_RQuil8HMuJEvcgwBWvzuF6ZI" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
     scripts: [
