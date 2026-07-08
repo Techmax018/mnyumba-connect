@@ -72,7 +72,7 @@ function Index() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 mt-6 text-sm">
-              <span className="opacity-80">Popular:</span>
+              <span className="font-medium">Popular:</span>
               {["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"].map(c => (
                 <Link key={c} to="/properties" search={{ city: c } as any} className="px-2.5 py-0.5 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-base">{c}</Link>
               ))}
