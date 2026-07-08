@@ -2,15 +2,20 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Home, LogOut, LayoutDashboard, Menu, Heart } from "lucide-react";
+import { LogOut, LayoutDashboard, Menu, Heart } from "lucide-react";
 import { useState } from "react";
 import { NotificationsBell } from "./NotificationsBell";
 import { ThemeToggle } from "./ThemeToggle";
+import { useTheme } from "@/hooks/use-theme";
 
 export function Header() {
   const { user, role } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { mode } = useTheme();
+  const logoSrc = mode === "dark"
+    ? "/logos/dark themed logo.png"
+    : "/logos/light themed logo.png";
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -33,11 +38,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/85 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-primary text-primary-foreground shadow-glow">
-            <Home className="h-5 w-5" />
-          </span>
-          <span>Mnyumba<span className="text-accent">Connect</span></span>
+        <Link to="/" className="flex items-center">
+          <img
+            src={logoSrc}
+            alt="Mnyumba Connect"
+            className="h-10 w-auto object-contain"
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">{navLinks}</nav>

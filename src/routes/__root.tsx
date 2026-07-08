@@ -65,7 +65,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Discover rentals across Nairobi, Mombasa, Kisumu and all major Kenyan cities. Direct from landlords." },
       { name: "google-site-verification", content: "bnltZwaHtsbIzu67V7_RQuil8HMuJEvcgwBWvzuF6ZI" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: "/logos/icon 1.png" },
+      { rel: "apple-touch-icon", href: "/logos/icon 1.png" },
+      { property: "og:image", content: "/logos/light themed logo.png" },
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -77,6 +82,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               name: "Mnyumba Connect",
               url: "https://mnyumba-connect-property.lovable.app",
               areaServed: "KE",
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+254703161031",
+                email: "maxdevs018@gmail.com",
+                contactType: "customer support",
+                areaServed: "KE",
+              },
             },
             {
               "@type": "WebSite",

@@ -54,8 +54,8 @@ function Contact() {
           </form>
         </Card>
         <div className="space-y-4">
-          <Card className="p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary"><Mail className="h-5 w-5" /></div><div><div className="text-xs text-muted-foreground">Email</div><div className="font-medium">hello@mnyumbaconnect.co.ke</div></div></div></Card>
-          <Card className="p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary"><Phone className="h-5 w-5" /></div><div><div className="text-xs text-muted-foreground">Phone</div><div className="font-medium">+254 700 000 000</div></div></div></Card>
+          <Card className="p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary"><Mail className="h-5 w-5" /></div><div><div className="text-xs text-muted-foreground">Email</div><div className="font-medium">maxdevs018@gmail.com</div></div></div></Card>
+          <Card className="p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary"><Phone className="h-5 w-5" /></div><div><div className="text-xs text-muted-foreground">Phone</div><div className="font-medium">+254 703 161 031</div></div></div></Card>
           <Card className="p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary"><MapPin className="h-5 w-5" /></div><div><div className="text-xs text-muted-foreground">Office</div><div className="font-medium">Nairobi, Kenya</div></div></div></Card>
         </div>
       </div>
