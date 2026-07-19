@@ -99,6 +99,16 @@ function AuthPage() {
   };
 
   const google = async () => {
+    // Managed Google OAuth is served by Lovable's proxy at /~oauth/*, which only
+    // exists on Lovable-hosted origins. If the app is being viewed on a non-Lovable
+    // host (e.g. a Vercel deployment), send the user to the published Lovable
+    // domain to complete Google sign-in there.
+    const LOVABLE_ORIGIN = "https://mnyumba-connect-property.lovable.app";
+    const isLovableHost = /\.lovable\.(app|dev)$/.test(window.location.hostname);
+    if (!isLovableHost) {
+      window.location.href = `${LOVABLE_ORIGIN}/auth`;
+      return;
+    }
     setLoading(true);
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
