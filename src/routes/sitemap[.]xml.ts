@@ -20,6 +20,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/properties", changefreq: "daily", priority: "0.9" },
           { path: "/about", changefreq: "monthly", priority: "0.5" },
           { path: "/contact", changefreq: "monthly", priority: "0.5" },
+          { path: "/auth", changefreq: "yearly", priority: "0.3" },
           { path: "/blog/rental-income-tax-kenya", changefreq: "monthly", priority: "0.6" },
         ];
 
