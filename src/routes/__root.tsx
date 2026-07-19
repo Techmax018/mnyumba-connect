@@ -69,7 +69,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/png", href: "/logos/icon 1.png" },
       { rel: "apple-touch-icon", href: "/logos/icon 1.png" },
-      { property: "og:image", content: "/logos/light themed logo.png" },
+      { property: "og:image", content: "https://mnyumba-connect-property.lovable.app/logos/light%20themed%20logo.png" },
     ],
     scripts: [
       {

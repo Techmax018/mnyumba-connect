@@ -31,6 +31,20 @@ export const Route = createFileRoute("/properties")({
       { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/properties" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Rentals across Kenya",
+          description: "Verified rental listings from landlords in Kenya, filterable by city, price, type and amenities.",
+          url: "https://mnyumba-connect-property.lovable.app/properties",
+          isPartOf: { "@type": "WebSite", name: "Mnyumba Connect", url: "https://mnyumba-connect-property.lovable.app" },
+          about: { "@type": "Thing", name: "Rental properties in Kenya" },
+        }),
+      },
+    ],
   }),
 });
 

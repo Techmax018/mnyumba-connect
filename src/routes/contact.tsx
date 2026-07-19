@@ -21,6 +21,21 @@ export const Route = createFileRoute("/contact")({
       { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/contact" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Mnyumba Connect",
+          url: "https://mnyumba-connect-property.lovable.app/contact",
+          email: "maxdevs018@gmail.com",
+          telephone: "+254703161031",
+          address: { "@type": "PostalAddress", addressLocality: "Nairobi", addressCountry: "KE" },
+          areaServed: "KE",
+        }),
+      },
+    ],
   }),
 });
 
