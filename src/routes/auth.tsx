@@ -18,7 +18,18 @@ const searchSchema = z.object({ mode: z.enum(["signin", "signup"]).optional() })
 export const Route = createFileRoute("/auth")({
   validateSearch: searchSchema,
   component: AuthPage,
-  head: () => ({ meta: [{ title: "Sign in — Mnyumba Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Sign in or create an account — Mnyumba Connect" },
+      { name: "description", content: "Sign in or create your Mnyumba Connect account to save favorite rentals, contact landlords directly and manage your listings across Kenya." },
+      { property: "og:title", content: "Sign in — Mnyumba Connect" },
+      { property: "og:description", content: "Sign in or create your Mnyumba Connect account to save rentals and manage listings across Kenya." },
+      { property: "og:url", content: "https://mnyumba-connect-property.lovable.app/auth" },
+      { property: "og:type", content: "website" },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://mnyumba-connect-property.lovable.app/auth" }],
+  }),
 });
 
 function AuthPage() {

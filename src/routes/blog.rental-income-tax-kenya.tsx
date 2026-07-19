@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const URL = "https://mnyumba-connect-property.lovable.app/blog/rental-income-tax-kenya";
 const TITLE = "Rental income tax in Kenya: what landlords pay in 2026";
-const DESC = "A plain-English guide to Monthly Rental Income (MRI) tax in Kenya — who pays the 7.5% rate, how to file on iTax, deadlines, penalties and worked examples for landlords.";
+const DESC = "Plain-English guide to Kenya's Monthly Rental Income tax: who pays the 7.5%, how to file on iTax, deadlines, penalties and worked examples.";
 
 export const Route = createFileRoute("/blog/rental-income-tax-kenya")({
   component: Post,
